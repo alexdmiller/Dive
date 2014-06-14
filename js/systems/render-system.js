@@ -30,7 +30,7 @@ APG.diver.systems.RenderSystem = CES.System.extend({
       var box = entity.getComponent('box'),
       sprite = new PIXI.Graphics();
       sprite.lineStyle(1, 0xFFFFFF, 1);
-      sprite.drawRect(0, 0, box.width, box.height);
+      sprite.drawRect(-box.width / 2, -box.height / 2, box.width, box.height);
     }
 
     sprite.x = position.x;

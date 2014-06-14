@@ -1,6 +1,6 @@
 var world = new CES.World();
 
-var physicsSystem = new APG.diver.systems.PhysicsSystem(),
+var physicsSystem = new APG.diver.systems.PhysicsSystem(0.9),
     renderSystem = new APG.diver.systems.RenderSystem(),
     mouseControlSystem = new APG.diver.systems.MouseControlSystem(
     renderSystem.stage);
@@ -14,6 +14,7 @@ diver.addComponent(new APG.diver.components.Position(100, 100));
 diver.addComponent(new APG.diver.components.Velocity(1, 0));
 diver.addComponent(new APG.diver.components.Box(30, 30));
 diver.addComponent(new APG.diver.components.Renderable(0xFFFFFF));
+diver.addComponent(new APG.diver.components.MouseAttraction(0.1, 1));
 world.addEntity(diver);
 
 requestAnimFrame(tick);

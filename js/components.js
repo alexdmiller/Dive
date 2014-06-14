@@ -34,7 +34,8 @@ APG.diver.components.Box = CES.Component.extend({
 
 APG.diver.components.MouseAttraction = CES.Component.extend({
   name: 'mouse attraction',
-  init: function(attraction) {
+  init: function(attraction, maxForce) {
     this.attraction = attraction;
+    this.maxForce = maxForce;
   }
 });
