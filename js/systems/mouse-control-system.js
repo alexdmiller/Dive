@@ -1,17 +1,26 @@
 APG.diver.systems.MouseControlSystem = CES.System.extend({
-  init: function(stage) {
-    this.stage = stage;
-    console.log(stage);
+  init: function(renderSystem) {
+    this.renderSystem = renderSystem;
+
+    var self = this;
+    this.renderSystem.stage.mousedown = function() {
+      self.mouseDown = true;
+    };
+    this.renderSystem.stage.mouseup = function() {
+      self.mouseDown = false;
+    };
+
   },
 
   update: function(dt) {
     var stage = this.stage;
     var entities = this.world.getEntities('mouse attraction', 'position', 'velocity');
-    entities.forEach(function (entity) {
+    var mouse = this.renderSystem.mousePosition;
+    if (this.mouseDown) {
+      entities.forEach(function (entity) {
       var position = entity.getComponent('position'),
           velocity = entity.getComponent('velocity'),
-          mouseAttraction = entity.getComponent('mouse attraction'),
-          mouse = stage.getMousePosition();
+          mouseAttraction = entity.getComponent('mouse attraction');
 
       var dx = mouse.x - position.x;
       var dy = mouse.y - position.y;
@@ -23,6 +32,8 @@ APG.diver.systems.MouseControlSystem = CES.System.extend({
         velocity.x += Math.cos(angle) * force;
         velocity.y += Math.sin(angle) * force;
       }
-    });
+      });
+    }
+
   }
 });

@@ -18,8 +18,9 @@ APG.diver.components.Velocity = CES.Component.extend({
 
 APG.diver.components.Renderable = CES.Component.extend({
   name: 'renderable',
-  init: function(color) {
+  init: function(color, cameraFocus) {
     this.color = color;
+    this.cameraFocus = true;
     this.sprite = null;
   }
 });
