@@ -1,6 +1,6 @@
 APG.diver.systems.PhysicsSystem = CES.System.extend({
-  init: function(friction, scalingFactor) {
-    this.friction = friction;
+  init: function(damping, scalingFactor) {
+    this.damping = damping;
     this.scalingFactor = scalingFactor;
     this.physicsWorld = boxbox.createWorld();
     this.physicsWorld.gravity({x: 0, y: 0});
@@ -23,10 +23,11 @@ APG.diver.systems.PhysicsSystem = CES.System.extend({
     if (options.radius) {
       options.radius /= this.scalingFactor;
     }
-    body.physicsEntity = this.physicsWorld.createEntity(options, {
+    body.physicsEntity = this.physicsWorld.createEntity({
+      linearDamping: this.damping,
       x: position.x / this.scalingFactor,
       y: position.y / this.scalingFactor
-    });
+    }, options);
 
     if (!entity.hasComponent('rotation')) {
       entity.addComponent(new APG.diver.components.Rotation(0));

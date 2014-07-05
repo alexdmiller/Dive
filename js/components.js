@@ -19,7 +19,7 @@ APG.diver.components.Renderable = CES.Component.extend({
   name: 'renderable',
   init: function(color, cameraFocus) {
     this.color = color;
-    this.cameraFocus = true;
+    this.cameraFocus = cameraFocus;
     this.sprite = null;
   }
 });
