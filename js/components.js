@@ -8,11 +8,10 @@ APG.diver.components.Position = CES.Component.extend({
   }
 });
 
-APG.diver.components.Velocity = CES.Component.extend({
-  name: 'velocity',
-  init: function(x, y) {
-    this.x = x;
-    this.y = y;
+APG.diver.components.Rotation = CES.Component.extend({
+  name: 'rotation',
+  init: function(theta) {
+    this.theta = theta;
   }
 });
 
@@ -25,11 +24,16 @@ APG.diver.components.Renderable = CES.Component.extend({
   }
 });
 
-APG.diver.components.Box = CES.Component.extend({
-  name: 'box',
-  init: function(width, height) {
-    this.width = width;
-    this.height = height;
+APG.diver.components.Body = CES.Component.extend({
+  name: 'body',
+  init: function(options) {
+    this.options = options;
+    this.physicsEntity = null;
+  },
+  applyImpulse: function(force, angle) {
+    if (this.physicsEntity) {
+      this.physicsEntity.applyImpulse(force, angle);
+    }
   }
 });
 
@@ -38,5 +42,13 @@ APG.diver.components.MouseAttraction = CES.Component.extend({
   init: function(attraction, maxForce) {
     this.attraction = attraction;
     this.maxForce = maxForce;
+  }
+});
+
+APG.diver.components.OxygenLevel = CES.Component.extend({
+  name: 'oxygen level',
+  init: function(oxygen, max) {
+    this.oxygen = oxygen;
+    this.max = max;
   }
 });

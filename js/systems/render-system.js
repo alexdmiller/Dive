@@ -19,13 +19,17 @@ APG.diver.systems.RenderSystem = CES.System.extend({
   },
 
   update: function(dt) {
-    var entities = this.world.getEntities('position', 'velocity');
+    var entities = this.world.getEntities('position');
     var self = this;
     entities.forEach(function(entity) {
       var renderable = entity.getComponent('renderable'),
           position = entity.getComponent('position');
       renderable.sprite.x = position.x;
       renderable.sprite.y = position.y;
+
+      if (entity.hasComponent('rotation')) {
+        renderable.sprite.rotation = entity.getComponent('rotation').theta * Math.PI / 180;
+      }
 
       if (renderable.cameraFocus) {
         self.positionCamera(renderable);
@@ -49,11 +53,16 @@ APG.diver.systems.RenderSystem = CES.System.extend({
         renderable = entity.getComponent('renderable'),
         sprite = null;
 
-    if (entity.hasComponent('box')) {
-      var box = entity.getComponent('box'),
-      sprite = new PIXI.Graphics();
-      sprite.lineStyle(1, 0xFFFFFF, 1);
-      sprite.drawRect(-box.width / 2, -box.height / 2, box.width, box.height);
+    if (entity.hasComponent('body')) {
+      var body = entity.getComponent('body');
+      if (body.options.shape == 'square') {
+        sprite = new PIXI.Graphics();
+        sprite.lineStyle(1, 0xFFFFFF, 1);
+        sprite.drawRect(-body.options.width / 2,
+                        -body.options.height / 2,
+                        body.options.width,
+                        body.options.height);
+      }
     }
 
     sprite.x = position.x;

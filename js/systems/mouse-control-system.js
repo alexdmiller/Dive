@@ -14,24 +14,24 @@ APG.diver.systems.MouseControlSystem = CES.System.extend({
 
   update: function(dt) {
     var stage = this.stage;
-    var entities = this.world.getEntities('mouse attraction', 'position', 'velocity');
+    var entities = this.world.getEntities('mouse attraction', 'position',
+      'body');
     var mouse = this.renderSystem.mousePosition;
     if (this.mouseDown) {
       entities.forEach(function (entity) {
-      var position = entity.getComponent('position'),
-          velocity = entity.getComponent('velocity'),
-          mouseAttraction = entity.getComponent('mouse attraction');
+        var position = entity.getComponent('position'),
+            body = entity.getComponent('body'),
+            mouseAttraction = entity.getComponent('mouse attraction');
 
-      var dx = mouse.x - position.x;
-      var dy = mouse.y - position.y;
-      var dist = Math.sqrt(dx*dx + dy*dy);
-      if (dist > 2) {
-        var angle = Math.atan2(dy, dx);
-        var force = Math.min(mouseAttraction.maxForce, mouseAttraction.attraction * dist);
-
-        velocity.x += Math.cos(angle) * force;
-        velocity.y += Math.sin(angle) * force;
-      }
+        var dx = mouse.x - position.x;
+        var dy = mouse.y - position.y;
+        var dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist > 2) {
+          var angle = Math.atan2(dy, dx);
+          var force = Math.min(mouseAttraction.maxForce,
+              mouseAttraction.attraction * dist);
+          body.applyImpulse(force, angle);
+        }
       });
     }
 
