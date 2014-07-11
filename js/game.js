@@ -6,6 +6,7 @@ var physicsSystem = new APG.diver.systems.PhysicsSystem(2, 30),
         renderSystem),
     oxygenSystem = new APG.diver.systems.OxygenSystem(1);
 
+world.addSystem(oxygenSystem);
 world.addSystem(physicsSystem);
 world.addSystem(renderSystem);
 world.addSystem(mouseControlSystem);
@@ -20,7 +21,7 @@ diver.addComponent(new APG.diver.components.Body({
 }));
 diver.addComponent(new APG.diver.components.Renderable(0xFFFFFF, true));
 diver.addComponent(new APG.diver.components.MouseAttraction(1, 1));
-var diverOxygenLevel = new APG.diver.components.OxygenLevel(100, 100);
+var diverOxygenLevel = new APG.diver.components.OxygenLevel(5000, 5000);
 diver.addComponent(diverOxygenLevel);
 world.addEntity(diver);
 
@@ -49,7 +50,7 @@ world.addEntity(fish);
 
 var oxygenMeter = new CES.Entity();
 oxygenMeter.addComponent(new APG.diver.components.UIComponent(
-    new APG.diver.viewControllers.MeterViewController(diverOxygenLevel)));
+    new APG.diver.viewControllers.MeterViewController(diverOxygenLevel, 20, 100)));
 world.addEntity(oxygenMeter);
 
 

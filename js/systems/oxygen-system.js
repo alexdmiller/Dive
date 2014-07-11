@@ -3,11 +3,12 @@ APG.diver.systems.OxygenSystem = CES.System.extend({
     this.depletionRate = depletionRate;
   },
   update: function(dt) {
-    this.physicsWorld.tick(dt);
     var entities = this.world.getEntities('oxygen_level');
+    var self = this;
     entities.forEach(function(entity) {
       var oxygenLevel = entity.getComponent('oxygen_level');
-      oxygenLevel.oxygen -= this.depletionRate;
+      oxygenLevel.current -= self.depletionRate;
+      console.log(oxygenLevel.current);
     });
   }
 });
