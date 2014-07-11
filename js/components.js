@@ -38,7 +38,7 @@ APG.diver.components.Body = CES.Component.extend({
 });
 
 APG.diver.components.MouseAttraction = CES.Component.extend({
-  name: 'mouse attraction',
+  name: 'mouse_attraction',
   init: function(attraction, maxForce) {
     this.attraction = attraction;
     this.maxForce = maxForce;
@@ -46,9 +46,16 @@ APG.diver.components.MouseAttraction = CES.Component.extend({
 });
 
 APG.diver.components.OxygenLevel = CES.Component.extend({
-  name: 'oxygen level',
-  init: function(oxygen, max) {
-    this.oxygen = oxygen;
+  name: 'oxygen_level',
+  init: function(current, max) {
+    this.current = current;
     this.max = max;
+  }
+});
+
+APG.diver.components.UIComponent = CES.Component.extend({
+  name: 'ui_component',
+  init: function(viewController) {
+    this.viewController = viewController;
   }
 });

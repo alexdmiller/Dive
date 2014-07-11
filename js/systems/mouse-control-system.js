@@ -14,14 +14,14 @@ APG.diver.systems.MouseControlSystem = CES.System.extend({
 
   update: function(dt) {
     var stage = this.stage;
-    var entities = this.world.getEntities('mouse attraction', 'position',
+    var entities = this.world.getEntities('mouse_attraction', 'position',
       'body');
     var mouse = this.renderSystem.mousePosition;
     if (this.mouseDown) {
       entities.forEach(function (entity) {
         var position = entity.getComponent('position'),
             body = entity.getComponent('body'),
-            mouseAttraction = entity.getComponent('mouse attraction');
+            mouseAttraction = entity.getComponent('mouse_attraction');
 
         var dx = mouse.x - position.x;
         var dy = mouse.y - position.y;

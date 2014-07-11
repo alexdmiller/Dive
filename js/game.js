@@ -3,7 +3,8 @@ var world = new CES.World();
 var physicsSystem = new APG.diver.systems.PhysicsSystem(2, 30),
     renderSystem = new APG.diver.systems.RenderSystem(800, 600),
     mouseControlSystem = new APG.diver.systems.MouseControlSystem(
-        renderSystem);
+        renderSystem),
+    oxygenSystem = new APG.diver.systems.OxygenSystem(1);
 
 world.addSystem(physicsSystem);
 world.addSystem(renderSystem);
@@ -19,8 +20,9 @@ diver.addComponent(new APG.diver.components.Body({
 }));
 diver.addComponent(new APG.diver.components.Renderable(0xFFFFFF, true));
 diver.addComponent(new APG.diver.components.MouseAttraction(1, 1));
+var diverOxygenLevel = new APG.diver.components.OxygenLevel(100, 100);
+diver.addComponent(diverOxygenLevel);
 world.addEntity(diver);
-
 
 
 var fish = new CES.Entity();
@@ -43,6 +45,12 @@ fish.addComponent(new APG.diver.components.Body({
 }));
 fish.addComponent(new APG.diver.components.Renderable(0xFFFFFF));
 world.addEntity(fish);
+
+
+var oxygenMeter = new CES.Entity();
+oxygenMeter.addComponent(new APG.diver.components.UIComponent(
+    new APG.diver.viewControllers.MeterViewController(diverOxygenLevel)));
+world.addEntity(oxygenMeter);
 
 
 requestAnimFrame(tick);

@@ -6,14 +6,19 @@ APG.diver.systems.RenderSystem = CES.System.extend({
     this.mousePosition = { x: 0, y: 0 };
     this.renderer = PIXI.autoDetectRenderer(800, 600);
 
-    this.entityContainer = new PIXI.DisplayObjectContainer();
-    this.stage.addChild(this.entityContainer);
+    this.worldContainer = new PIXI.DisplayObjectContainer();
+    this.stage.addChild(this.worldContainer);
+
+    this.guiContainer = new PIXI.DisplayObjectContainer();
+    this.stage.addChild(this.guiContainer);
 
     document.body.appendChild(this.renderer.view);
   },
 
   addedToWorld: function(world) {
-    world.entityAdded('position', 'renderable').add(_.bind(this.entityAdded,
+    world.entityAdded('position', 'renderable').add(_.bind(this.worldEntityAdded,
+        this));
+    world.entityAdded('ui_component').add(_.bind(this.guiEntityAdded,
         this));
     this._super(world);
   },
@@ -37,23 +42,29 @@ APG.diver.systems.RenderSystem = CES.System.extend({
     });
 
     this.mousePosition = this.stage.getMousePosition().clone();
-    this.mousePosition.x -= this.entityContainer.x;
-    this.mousePosition.y -= this.entityContainer.y;
+    this.mousePosition.x -= this.worldContainer.x;
+    this.mousePosition.y -= this.worldContainer.y;
+
+    var uiComponents = this.world.getEntities('ui_component');
+    uiComponents.forEach(function(entity) {
+      var uiComponent = entity.getComponent('ui_component');
+      uiComponent.viewController.update();
+    });
 
     this.renderer.render(this.stage);
   },
 
   positionCamera: function(renderable) {
-    this.entityContainer.x = -renderable.sprite.x + this.width / 2;
-    this.entityContainer.y = -renderable.sprite.y + this.height / 2;
+    this.worldContainer.x = -renderable.sprite.x + this.width / 2;
+    this.worldContainer.y = -renderable.sprite.y + this.height / 2;
   },
 
-  entityAdded: function(entity) {
+  worldEntityAdded: function(entity) {
     var position = entity.getComponent('position'),
         renderable = entity.getComponent('renderable'),
         sprite = null;
 
-    if (entity.hasComponent('body')) {
+    if (entity.hasComponent('body') && entity.hasComponent('renderable')) {
       var body = entity.getComponent('body');
       if (body.options.shape == 'square') {
         sprite = new PIXI.Graphics();
@@ -64,11 +75,28 @@ APG.diver.systems.RenderSystem = CES.System.extend({
                         body.options.height);
       }
     }
+    renderable.sprite = sprite;
+    this.worldContainer.addChild(sprite);
 
     sprite.x = position.x;
     sprite.y = position.y;
+  },
 
-    renderable.sprite = sprite;
-    this.entityContainer.addChild(sprite);
+  guiEntityAdded: function(entity) {
+    var uiComponent = entity.getComponent('ui_component');
+
+    var sprite = uiComponent.viewController.getView();
+    this.guiContainer.addChild(sprite);
+
+    if (entity.hasComponent('position')) {
+      var position = entity.getComponent('position');
+      sprite.x = position.x;
+      sprite.y = position.y;
+    } else {
+      sprite.x = 0;
+      sprite.y = 0;
+    }
+
+    this.guiContainer.addChild(sprite);
   }
 });
