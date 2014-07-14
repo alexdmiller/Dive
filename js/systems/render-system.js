@@ -5,7 +5,7 @@ APG.diver.systems.RenderSystem = CES.System.extend({
     this.height = height;
     this.debug = debug;
     this.mousePosition = { x: 0, y: 0 };
-    this.renderer = PIXI.autoDetectRenderer(800, 600);
+    this.renderer = PIXI.autoDetectRenderer(width, height);
 
     this.worldContainer = new PIXI.DisplayObjectContainer();
     this.stage.addChild(this.worldContainer);
