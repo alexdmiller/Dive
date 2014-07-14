@@ -65,8 +65,11 @@ APG.diver.systems.RenderSystem = CES.System.extend({
         sprite = null;
 
     if (entity.hasComponent('body') && entity.hasComponent('renderable')) {
-      var body = entity.getComponent('body');
-      if (body.options.shape == 'square') {
+      var body = entity.getComponent('body'),
+          renderable = entity.getComponent('renderable');
+      if (renderable.viewController) {
+        sprite = renderable.viewController.getView();
+      } else if (body.options.shape == 'square') {
         sprite = new PIXI.Graphics();
         sprite.lineStyle(1, 0xFFFFFF, 1);
         sprite.drawRect(-body.options.width / 2,

@@ -17,9 +17,10 @@ APG.diver.components.Rotation = CES.Component.extend({
 
 APG.diver.components.Renderable = CES.Component.extend({
   name: 'renderable',
-  init: function(color, cameraFocus) {
+  init: function(color, cameraFocus, viewController) {
     this.color = color;
     this.cameraFocus = cameraFocus;
+    this.viewController = viewController;
     this.sprite = null;
   }
 });

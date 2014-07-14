@@ -7,7 +7,7 @@ APG.diver.viewControllers.MeterViewController = function(level, height, width) {
 
 APG.diver.viewControllers.MeterViewController.prototype.getView = function() {
   return this.sprite;
-}
+};
 
 APG.diver.viewControllers.MeterViewController.prototype.update = function() {
   this.sprite.clear();

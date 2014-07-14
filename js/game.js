@@ -19,7 +19,8 @@ diver.addComponent(new APG.diver.components.Body({
   height: 30,
   fixedRotation: true
 }));
-diver.addComponent(new APG.diver.components.Renderable(0xFFFFFF, true));
+diver.addComponent(new APG.diver.components.Renderable(0xFFFFFF, true,
+    new APG.diver.viewControllers.SubmarineViewController()));
 diver.addComponent(new APG.diver.components.MouseAttraction(1, 1));
 var diverOxygenLevel = new APG.diver.components.OxygenLevel(5000, 5000);
 diver.addComponent(diverOxygenLevel);
