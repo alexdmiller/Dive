@@ -1,8 +1,9 @@
 APG.diver.systems.RenderSystem = CES.System.extend({
-  init: function(width, height) {
+  init: function(width, height, debug) {
     this.stage = new PIXI.Stage(0x223366);
     this.width = width;
     this.height = height;
+    this.debug = debug;
     this.mousePosition = { x: 0, y: 0 };
     this.renderer = PIXI.autoDetectRenderer(800, 600);
 
@@ -61,28 +62,34 @@ APG.diver.systems.RenderSystem = CES.System.extend({
 
   worldEntityAdded: function(entity) {
     var position = entity.getComponent('position'),
-        renderable = entity.getComponent('renderable'),
-        sprite = null;
+        renderable = entity.getComponent('renderable');
 
     if (entity.hasComponent('body') && entity.hasComponent('renderable')) {
       var body = entity.getComponent('body'),
           renderable = entity.getComponent('renderable');
+
+      var spriteContainer = new PIXI.DisplayObjectContainer();
+
       if (renderable.viewController) {
-        sprite = renderable.viewController.getView();
-      } else if (body.options.shape == 'square') {
+        var sprite = renderable.viewController.getView();
+        spriteContainer.addChild(sprite);
+      } 
+
+      if (body.options.shape == 'square') {
         sprite = new PIXI.Graphics();
         sprite.lineStyle(1, 0xFFFFFF, 1);
         sprite.drawRect(-body.options.width / 2,
                         -body.options.height / 2,
                         body.options.width,
                         body.options.height);
+        spriteContainer.addChild(sprite);
       }
     }
-    renderable.sprite = sprite;
-    this.worldContainer.addChild(sprite);
+    renderable.sprite = spriteContainer;
+    this.worldContainer.addChild(spriteContainer);
 
-    sprite.x = position.x;
-    sprite.y = position.y;
+    spriteContainer.x = position.x;
+    spriteContainer.y = position.y;
   },
 
   guiEntityAdded: function(entity) {
