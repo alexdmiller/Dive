@@ -42,7 +42,8 @@
       width: 100,
       height: 30
     }));
-    fish.addComponent(new APG.diver.components.Renderable(0xFFFFFF));
+    fish.addComponent(new APG.diver.components.Renderable(0xFF0000));
+    fish.addComponent(new APG.diver.components.OxygenSource(10));
     world.addEntity(fish);
 
 
@@ -61,7 +62,6 @@
     oxygenMeter.addComponent(new APG.diver.components.UIComponent(
         new APG.diver.viewControllers.MeterViewController(diverOxygenLevel, 20, 100)));
     world.addEntity(oxygenMeter);
-
 
     requestAnimFrame(tick);
     function tick() {

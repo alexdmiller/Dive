@@ -77,7 +77,7 @@ APG.diver.systems.RenderSystem = CES.System.extend({
 
       if (body.options.shape == 'square') {
         sprite = new PIXI.Graphics();
-        sprite.lineStyle(1, 0xFFFFFF, 1);
+        sprite.lineStyle(1, renderable.color, 1);
         sprite.drawRect(-body.options.width / 2,
                         -body.options.height / 2,
                         body.options.width,

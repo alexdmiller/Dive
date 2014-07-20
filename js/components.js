@@ -30,6 +30,7 @@ APG.diver.components.Body = CES.Component.extend({
   init: function(options) {
     this.options = options;
     this.physicsEntity = null;
+    this.collidingEntities = [];
   },
   applyImpulse: function(force, angle) {
     if (this.physicsEntity) {
@@ -54,9 +55,17 @@ APG.diver.components.OxygenLevel = CES.Component.extend({
   }
 });
 
+APG.diver.components.OxygenSource = CES.Component.extend({
+  name: 'oxygen_source',
+  init: function(transferRate) {
+    this.transferRate = transferRate;
+  }
+})
+
 APG.diver.components.UIComponent = CES.Component.extend({
   name: 'ui_component',
   init: function(viewController) {
     this.viewController = viewController;
   }
 });
+

@@ -8,6 +8,18 @@ APG.diver.systems.OxygenSystem = CES.System.extend({
     entities.forEach(function(entity) {
       var oxygenLevel = entity.getComponent('oxygen_level');
       oxygenLevel.current -= self.depletionRate;
+
+      if (entity.hasComponent('body')) {
+        var body = entity.getComponent('body');
+        _.each(body.collidingEntities, function(colliding) {
+          if (colliding.hasComponent('oxygen_source')) {
+            var source = colliding.getComponent('oxygen_source');
+            if (oxygenLevel.current < oxygenLevel.max) {
+              oxygenLevel.current += source.transferRate;
+            }
+          }
+        });
+      }
     });
   }
 });

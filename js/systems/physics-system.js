@@ -26,8 +26,18 @@ APG.diver.systems.PhysicsSystem = CES.System.extend({
     body.physicsEntity = this.physicsWorld.createEntity({
       linearDamping: this.damping,
       x: position.x / this.scalingFactor,
-      y: position.y / this.scalingFactor
+      y: position.y / this.scalingFactor,
+      userData: entity
     }, options);
+
+    // TODO: unregister event listeners when entity removed.
+    body.physicsEntity.onStartContact(function(other) {
+      body.collidingEntities.push(other.userData());
+    });
+
+    body.physicsEntity.onFinishContact(function(other) {
+      body.collidingEntities = _.without(body.collidingEntities, other.userData());
+    });
 
     if (!entity.hasComponent('rotation')) {
       entity.addComponent(new APG.diver.components.Rotation(0));
